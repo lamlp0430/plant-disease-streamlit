@@ -43,6 +43,39 @@ with col1:
                 try:
                     results = model.predict(source=image_pil, device='cpu', save=False)
                     result_array = results[0].plot()
+                    # === BẮT ĐẦU ĐOẠN CODE MỚI ===
+
+            st.subheader("🔍 Chi tiết phát hiện:")
+        
+            # 1. Lấy kết quả cho ảnh đầu tiên
+            result = results[0]
+            
+            # 2. Lấy danh sách tên bệnh (class names) từ model
+            class_names = model.names
+        
+            # 3. Lặp qua từng "box" (khung) phát hiện được
+            if len(result.boxes) == 0:
+                st.success("✅ Không phát hiện thấy bệnh.")
+            else:
+                for box in result.boxes:
+                    # Lấy tên bệnh từ ID (ví dụ: 0 -> 'Bệnh A')
+                    class_id = int(box.cls[0])
+                    class_name = class_names[class_id]
+                    
+                    # Lấy thông số "Độ tin cậy" (Confidence)
+                    confidence = float(box.conf[0])
+                    
+                    # Lấy "Tọa độ" [x1, y1, x2, y2]
+                    coords = box.xyxy[0]
+                    x1, y1, x2, y2 = int(coords[0]), int(coords[1]), int(coords[2]), int(coords[3])
+                    
+                    # Hiển thị tất cả thông tin
+                    st.markdown(f"**Tên bệnh:** `{class_name}`")
+                    st.markdown(f"**Độ tin cậy:** `{confidence:.2f}`") # Làm tròn 2 chữ số
+                    st.markdown(f"**Tọa độ [x1, y1, x2, y2]:** `[{x1}, {y1}, {x2}, {y2}]`")
+                    st.markdown("---") # Thêm một đường kẻ ngang
+        
+            # === KẾT THÚC ĐOẠN CODE MỚI ===
                     st.session_state.result_image_array = result_array
                 except Exception as e:
                     st.error(f"Lỗi khi chạy 'Bộ não' Cục bộ: {e}")
