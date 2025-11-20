@@ -1,8 +1,6 @@
 streamlit
+ultralytics
 opencv-python-headless
 Pillow
 numpy<2.0.0
-# Thư viện này cần thiết để YOLOv10 tải config từ Hub
-huggingface_hub
-# Cài đặt Ultralytics trực tiếp từ nhánh chính (Main) trên GitHub để hỗ trợ v10 tốt nhất
-git+https://github.com/ultralytics/ultralytics.git@main
+onnxruntime  # <--- Thêm dòng quan trọng này
