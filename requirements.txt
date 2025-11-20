@@ -1,5 +1,6 @@
 streamlit
-gradio_client
-Pillow
-ultralytics
+ultralytics>=8.2.50
 opencv-python-headless
+Pillow
+numpy<2.0.0
+torch
