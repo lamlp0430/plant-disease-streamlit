@@ -3,12 +3,19 @@ from PIL import Image
 import os
 from ultralytics import YOLO
 
-# --- "BỘ NÃO" (GỘP) ---
-@st.cache_resource # "Triệt để" cache "Bộ não"
+# --- "BỘ NÃO" AI (Load Model) ---
+@st.cache_resource
 def load_model():
-    print("Loading YOLOv5 model (Cục bộ)...")
-    model = YOLO("best.pt") # <--- "TRIỆT ĐỂ" TẢI "BỘ NÃO"
-    print("✅ Model loaded successfully (Cục bộ)!")
+    model_path = "best.onnx"  # <--- Đổi tên file thành .onnx
+    
+    if not os.path.exists(model_path):
+        st.error("❌ Không tìm thấy file 'best.onnx'. Vui lòng upload file lên!")
+        return None
+    
+    # Load model ONNX (thêm task='detect' để chắc chắn)
+    model = YOLO(model_path, task="detect") 
+    
+    print(f"🚀 Đã load thành công model: {model_path}")
     return model
 
 model = load_model()
